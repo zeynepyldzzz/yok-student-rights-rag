@@ -1,13 +1,17 @@
-# app.py (en ÜSTE ekle, streamlit'ten ÖNCE)
+# app.py — Hugging Face üzerinde tam çalışır hale getirilmiş versiyon
 import os
 
-# Streamlit'in yazacağı yerleri kullanıcı home'a yönlendir
+# Hugging Face ortamında Streamlit yazma izinlerini düzelt
 os.environ["HOME"] = "/home/user"
 os.environ["XDG_CONFIG_HOME"] = "/home/user"
+os.environ["STREAMLIT_GLOBAL_DATA_DIR"] = "/home/user/.streamlit"
 os.environ["STREAMLIT_BROWSER_GATHERUSAGESTATS"] = "false"
 
-# Home içinde .streamlit klasörünü ve config dosyasını garanti et
+# Klasörleri oluştur
 os.makedirs("/home/user/.streamlit", exist_ok=True)
+os.makedirs("/home/user/.cache", exist_ok=True)
+
+# Config dosyasını yaz
 CONFIG_PATH = "/home/user/.streamlit/config.toml"
 if not os.path.exists(CONFIG_PATH):
     with open(CONFIG_PATH, "w", encoding="utf-8") as f:
@@ -21,8 +25,15 @@ if not os.path.exists(CONFIG_PATH):
             "gatherUsageStats = false\n"
         )
 
+# .cache/config.json gibi dosyalar yazmak isteyebilir — orayı da garanti et
+os.environ["STREAMLIT_CONFIG_FILE"] = CONFIG_PATH
+
+# dotenv yükle
 from dotenv import load_dotenv
 load_dotenv()
+
+import streamlit as st
+
 
 import streamlit as st
 
