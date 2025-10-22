@@ -1,5 +1,31 @@
-# app.py — RAG'e bağlanmış sürüm
+# app.py (en ÜSTE ekle, streamlit'ten ÖNCE)
+import os
+
+# Streamlit'in yazacağı yerleri kullanıcı home'a yönlendir
+os.environ["HOME"] = "/home/user"
+os.environ["XDG_CONFIG_HOME"] = "/home/user"
+os.environ["STREAMLIT_BROWSER_GATHERUSAGESTATS"] = "false"
+
+# Home içinde .streamlit klasörünü ve config dosyasını garanti et
+os.makedirs("/home/user/.streamlit", exist_ok=True)
+CONFIG_PATH = "/home/user/.streamlit/config.toml"
+if not os.path.exists(CONFIG_PATH):
+    with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+        f.write(
+            "[server]\n"
+            "headless = true\n"
+            "enableCORS = false\n"
+            "enableXsrfProtection = false\n"
+            "port = 7860\n\n"
+            "[browser]\n"
+            "gatherUsageStats = false\n"
+        )
+
+from dotenv import load_dotenv
+load_dotenv()
+
 import streamlit as st
+
 from dotenv import load_dotenv
 import os
 
