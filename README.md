@@ -44,5 +44,6 @@ python ingest.py
 # 2) Uygulama
 python -m streamlit run app.py
 
+(autofix) ensure .streamlit/config.toml permissions for Hugging Face
 
 
